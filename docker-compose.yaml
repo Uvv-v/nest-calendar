@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "calendar_db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "5432:5432"
+
+  postgres-keycloak:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: "keycloak"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    command:
+      - -p 5433
+    expose:
+      - "5433"
+    ports:
+      - "5433:5433"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_VENDOR=POSTGRES
+      - DB_ADDR=postgres-keycloak
+      - DB_DATABASE=keycloak
+      - DB_PORT=5433
+      - DB_SCHEMA=public
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    depends_on:
+      - postgres-keycloak
+    command:
+      - start-dev
+
+#  app:
+#    image: calendar_app_image
+#    build:
+#      context: .
+#      dockerfile: ./DockerFile
+#    ports:
+#      - "3000:3000"
