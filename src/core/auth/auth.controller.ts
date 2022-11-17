@@ -3,10 +3,10 @@ import { Public, Resource } from 'nest-keycloak-connect';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import AuthService from './auth.service';
-import { SignInDTO, TokensResponseDTO } from './dto/signin.dto';
+import { LoginDto, TokensResponseDTO } from './dto/login.dto';
 
 @Controller({ path: '/auth' })
-@ApiTags('Авторизация')
+@ApiTags('Authorization')
 @ApiBearerAuth('access_token')
 @Resource('Auth')
 export default class AuthController {
@@ -14,22 +14,28 @@ export default class AuthController {
 
   @Post('/login')
   @Public()
-  @ApiOperation({ summary: 'Авторизация пользователя' })
-  @ApiResponse({ status: 200, type: TokensResponseDTO })
-  async login(@Query() params: SignInDTO) {
-    return await this.authService.login();
+  @ApiOperation({ summary: 'User login' })
+  @ApiResponse({ status: 200, type: TokensResponseDTO, description: 'Success login' })
+  @ApiResponse({ status: 500, description: 'Failure login' })
+  async login(@Query() params: LoginDto) {
+    return await this.authService.login(params);
   }
 
   @Post('/refresh')
   @Public()
+  @ApiOperation({ summary: 'Token refresh' })
   @ApiQuery({ name: 'refresh_token' })
+  @ApiResponse({ status: 200, type: TokensResponseDTO, description: 'Success refresh' })
+  @ApiResponse({ status: 500, description: 'Failure refresh' })
   refresh(@Query('refresh-token') refresh) {
     return this.authService.refresh(refresh);
   }
 
   @Post('/logout')
-  @Public()
+  @ApiOperation({ summary: 'User logout' })
   @ApiQuery({ name: 'refresh_token' })
+  @ApiResponse({ status: 201, description: 'Success logout' })
+  @ApiResponse({ status: 500, description: 'Failure logout' })
   logout(@Query('refresh_token') refresh) {
     return this.authService.logout(refresh);
   }

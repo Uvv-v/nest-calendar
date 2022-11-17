@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export default class AuthService {
@@ -9,23 +10,19 @@ export default class AuthService {
     private config: ConfigService,
   ) {}
 
-  async login() {
+  async login(params: LoginDto) {
     const keycloakConfig = this.config.get('keycloak');
 
     const response = await this.httpService.axiosRef.post(
-      `${keycloakConfig.authServerUrl}/realms/${keycloakConfig.realm}/protocol/openid-connect/token`,
+      '/protocol/openid-connect/token',
       {
         grant_type: 'password',
-        username: 'admin',
-        password: '1',
+        username: params.username,
+        password: params.password,
         client_secret: keycloakConfig.secret,
         client_id: keycloakConfig.clientId,
       },
-      {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      },
     );
-
     return response.data;
   }
 
@@ -33,34 +30,28 @@ export default class AuthService {
     const keycloakConfig = this.config.get('keycloak');
 
     const response = await this.httpService.axiosRef.post(
-      `${keycloakConfig.authServerUrl}/realms/${keycloakConfig.realm}/protocol/openid-connect/token`,
+      '/protocol/openid-connect/token',
       {
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
         client_secret: keycloakConfig.secret,
         client_id: keycloakConfig.clientId,
       },
-      {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      },
     );
-
     return response.data;
   }
 
   async logout(refreshToken) {
     const keycloakConfig = this.config.get('keycloak');
 
-    return await this.httpService.axiosRef.post(
-      `${keycloakConfig.authServerUrl}/realms/${keycloakConfig.realm}/protocol/openid-connect/logout`,
+    const response = await this.httpService.axiosRef.post(
+      '/protocol/openid-connect/logout',
       {
         refresh_token: refreshToken,
         client_secret: keycloakConfig.secret,
         client_id: keycloakConfig.clientId,
       },
-      {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      },
     );
+    return response.data;
   }
 }

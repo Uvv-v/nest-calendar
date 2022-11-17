@@ -13,7 +13,6 @@ async function bootstrap() {
   await app.register(etag);
   await app.register(compression);
 
-
   await app.setGlobalPrefix('/api/v1')
   const swaggerConfig = new DocumentBuilder()
     .setTitle('nest-calendar')
