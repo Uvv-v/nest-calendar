@@ -19,7 +19,7 @@ async function bootstrap() {
     .setTitle('nest-calendar')
     .setDescription('API docs')
     .setVersion('1.0.0')
-    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'access-token')
+    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'access_token')
     .build();
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);

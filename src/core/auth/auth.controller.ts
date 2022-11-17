@@ -7,7 +7,7 @@ import { SignInDTO, TokensResponseDTO } from './dto/signin.dto';
 
 @Controller({ path: '/auth' })
 @ApiTags('Авторизация')
-@ApiBearerAuth('access-token')
+@ApiBearerAuth('access_token')
 @Resource('Auth')
 export default class AuthController {
   constructor(private authService: AuthService) {}
@@ -22,15 +22,16 @@ export default class AuthController {
 
   @Post('/refresh')
   @Public()
-  @ApiQuery({ name: 'refresh-token' })
+  @ApiQuery({ name: 'refresh_token' })
   refresh(@Query('refresh-token') refresh) {
     return this.authService.refresh(refresh);
   }
 
   @Post('/logout')
   @Public()
-  logout() {
-    return this.authService.logout();
+  @ApiQuery({ name: 'refresh_token' })
+  logout(@Query('refresh_token') refresh) {
+    return this.authService.logout(refresh);
   }
 
   @Get('/test')

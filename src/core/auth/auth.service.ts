@@ -48,7 +48,19 @@ export default class AuthService {
     return response.data;
   }
 
-  logout() {
+  async logout(refreshToken) {
+    const keycloakConfig = this.config.get('keycloak');
 
+    return await this.httpService.axiosRef.post(
+      `${keycloakConfig.authServerUrl}/realms/${keycloakConfig.realm}/protocol/openid-connect/logout`,
+      {
+        refresh_token: refreshToken,
+        client_secret: keycloakConfig.secret,
+        client_id: keycloakConfig.clientId,
+      },
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      },
+    );
   }
 }
