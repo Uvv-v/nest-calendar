@@ -1,15 +1,13 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
-import { Public, Resource } from 'nest-keycloak-connect';
+import { Public } from 'nest-keycloak-connect';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import AuthService from './auth.service';
+import { AuthService } from './auth.service';
 import { LoginDto, TokensResponseDTO } from './dto/login.dto';
 
 @Controller({ path: '/auth' })
 @ApiTags('Authorization')
-@ApiBearerAuth('access_token')
-@Resource('Auth')
-export default class AuthController {
+export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/login')
@@ -32,6 +30,7 @@ export default class AuthController {
   }
 
   @Post('/logout')
+  @ApiBearerAuth('access_token')
   @ApiOperation({ summary: 'User logout' })
   @ApiQuery({ name: 'refresh_token' })
   @ApiResponse({ status: 201, description: 'Success logout' })
@@ -41,6 +40,7 @@ export default class AuthController {
   }
 
   @Get('/test')
+  @ApiBearerAuth('access_token')
   test() {
     return 'Hello';
   }

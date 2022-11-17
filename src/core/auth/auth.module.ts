@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
-import AuthService from './auth.service';
-import AuthController from './auth.controller';
 import { ConfigService } from '@nestjs/config';
+
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
@@ -21,4 +22,4 @@ import { ConfigService } from '@nestjs/config';
   providers: [AuthService],
   exports: [AuthService],
 })
-export default class AuthModule {}
+export class AuthModule {}

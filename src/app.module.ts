@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { KeycloakConnectModule, AuthGuard, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 
-import AuthModule from './core/auth/auth.module';
+import { AuthModule } from './core/auth/auth.module';
 
 import * as configs from './config';
 

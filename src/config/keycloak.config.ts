@@ -1,6 +1,6 @@
 import { KeycloakConnectOptions, PolicyEnforcementMode, TokenValidation } from 'nest-keycloak-connect';
 
-export default (): { keycloak: KeycloakConnectOptions } => ({
+export const keycloak = (): { keycloak: KeycloakConnectOptions } => ({
   keycloak: {
     authServerUrl: process.env.KEYCLOAK_SERVER_URL,
     realm: process.env.KEYCLOAK_REALM,

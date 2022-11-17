@@ -1,6 +1,6 @@
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 
-export default (): { database: SequelizeModuleOptions } => ({
+export const database = (): { database: SequelizeModuleOptions } => ({
   database: {
     dialect: 'postgres',
     database: process.env.PG_DATABASE,

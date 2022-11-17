@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
-export default class AuthService {
+export class AuthService {
   constructor(
     private httpService: HttpService,
     private config: ConfigService,
