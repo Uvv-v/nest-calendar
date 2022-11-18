@@ -6,6 +6,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { KeycloakConnectModule, AuthGuard, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 
 import { AuthModule } from './core/auth/auth.module';
+import { EventModule } from './core/event/event.module';
 
 import * as configs from './config';
 
@@ -24,6 +25,7 @@ import * as configs from './config';
       useFactory: (config: ConfigService) => config.get('keycloak'),
     }),
     AuthModule,
+    EventModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: AuthGuard },
