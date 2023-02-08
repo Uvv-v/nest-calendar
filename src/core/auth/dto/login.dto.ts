@@ -3,11 +3,11 @@ import { IsString } from 'class-validator';
 
 export class LoginDto {
   @IsString()
-  @ApiProperty({ examples: { username: { value: 'admin' }, email: { value: 'admin@admin.com' } } })
+  @ApiProperty({ example: 'admin' })
   username: string;
 
   @IsString()
-  @ApiProperty({ example: '1' })
+  @ApiProperty({ example: 'admin' })
   password:  string;
 }
 

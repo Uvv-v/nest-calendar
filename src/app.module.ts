@@ -6,9 +6,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { KeycloakConnectModule, AuthGuard, ResourceGuard, RoleGuard } from 'nest-keycloak-connect';
 
 import { AuthModule } from './core/auth/auth.module';
-import { EventModule } from './core/event/event.module';
 
 import * as configs from './config';
+import { UserModule } from './core/user/user.module';
+// import { FileDescriptorModule } from './file-descriptor/file-descriptor.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import * as configs from './config';
       useFactory: (config: ConfigService) => config.get('keycloak'),
     }),
     AuthModule,
-    EventModule,
+    UserModule,
+    // FileDescriptorModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: AuthGuard },

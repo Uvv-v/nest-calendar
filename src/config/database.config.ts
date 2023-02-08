@@ -8,7 +8,7 @@ export const database = (): { database: SequelizeModuleOptions } => ({
     port: parseInt(process.env.PG_PORT),
     username: process.env.PG_USERNAME,
     password: process.env.PG_PASSWORD,
-    autoLoadModels: true,
+    autoLoadModels: false,
     retry: {
       max: 1,
     },
